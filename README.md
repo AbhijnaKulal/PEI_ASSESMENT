@@ -30,3 +30,29 @@ CREATE TABLE sales_shipping (
 );
 
 
+pyhton code to upload the data 
+
+import pandas as pd
+from sqlalchemy import create_engine
+import os 
+import json
+
+print(os.getcwd())
+
+# creating dataframes using the files provided
+sales_customer =pd.read_csv('../customer.csv')
+sales_order =pd.read_csv('../order.csv')
+sales_shipping =pd.read_json('../shipping.json')
+
+
+# Database connection
+engine = create_engine('postgresql+psycopg2://username:password@localhost:5432/mydatabase')
+
+# Append DataFrames to existing PostgreSQL tables
+sales_customer.to_sql('orders', engine, if_exists='append', index=False)
+sales_order.to_sql('customers', engine, if_exists='append', index=False)
+sales_shipping.to_sql('sales_shipping', engine, if_exists='append', index=False)
+
+print("DataFrames appended successfully!")
+
+
